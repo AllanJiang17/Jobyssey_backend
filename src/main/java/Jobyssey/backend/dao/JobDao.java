@@ -63,9 +63,11 @@ public class JobDao {
                 "INSERT INTO user_resources (" +
                 "username, " +
                 "password, " +
-                "email) " +
-                "VALUES (?,?,?)";
-        return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+                "email, " +
+                "interviews, " +
+                "applications) " +
+                "VALUES (?,?,?,?,?)";
+        return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(), user.getInterviews(), user.getApplications());
     }
 
     public List<User> checkPassword() {
