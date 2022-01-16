@@ -40,7 +40,7 @@ public class Services {
         return null;
     }
 
-    public User returnUser(String username) {
-        return jobDao.returnUser(username);
+    public void addNewApplications(User s) {
+        jobDao.addNewApplications(s);
     }
 }

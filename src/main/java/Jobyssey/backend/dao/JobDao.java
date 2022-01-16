@@ -3,9 +3,7 @@ package Jobyssey.backend.dao;
 import Jobyssey.backend.model.Company;
 import Jobyssey.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -84,7 +82,9 @@ public class JobDao {
             return new User(
                     resultSet.getString("username"),
                     resultSet.getString("password"),
-                    resultSet.getString("email")
+                    resultSet.getString("email"),
+                    resultSet.getString("applications"),
+                    resultSet.getString("interviews")
             );
         };
     }
@@ -98,11 +98,21 @@ public class JobDao {
                     new User(
                             resultSet.getString("username"),
                             resultSet.getString("password"),
-                            resultSet.getString("email")
+                            resultSet.getString("email"),
+                            resultSet.getString("applications"),
+                            resultSet.getString("interviews")
                     ));
         } catch (Exception e){
             return null;
         }
         return oldUser;
+    }
+
+    private static final String ADD_APPLICATIONS = new StringBuilder("")
+            .append("UPDATE user_resources set interviews = '%1$s', applications = '%2$s' WHERE username = '%3$s'")
+            .toString();
+
+    public int addNewApplications(User s) {
+        return  jdbcTemplate.update(String.format(ADD_APPLICATIONS, s.getInterviews(), s.getApplications(), s.getUsername()));
     }
 }
