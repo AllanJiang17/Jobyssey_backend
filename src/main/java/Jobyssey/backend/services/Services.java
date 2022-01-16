@@ -37,7 +37,7 @@ public class Services {
                 return u;
             }
         }
-        return null;
+        return new User("fake", "","","","");
     }
 
     public void addNewApplications(User s) {

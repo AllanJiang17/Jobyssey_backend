@@ -72,7 +72,9 @@ public class JobDao {
                 "SELECT " +
                 "username, " +
                 "password, " +
-                "email " +
+                "email, " +
+                "interviews, " +
+                "applications " +
                 "FROM user_resources";
       return jdbcTemplate.query(sql, mapUser());
     }
@@ -83,8 +85,8 @@ public class JobDao {
                     resultSet.getString("username"),
                     resultSet.getString("password"),
                     resultSet.getString("email"),
-                    resultSet.getString("applications"),
-                    resultSet.getString("interviews")
+                    resultSet.getString("interviews"),
+                    resultSet.getString("applications")
             );
         };
     }
