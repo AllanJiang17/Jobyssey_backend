@@ -3,7 +3,9 @@ package Jobyssey.backend.dao;
 import Jobyssey.backend.model.Company;
 import Jobyssey.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -67,12 +69,32 @@ public class JobDao {
         return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
     }
 
-    public User checkPassword(String user) {
+    public List<User> checkPassword() {
+        String sql = "" +
+                "SELECT " +
+                "username, " +
+                "password, " +
+                "email " +
+                "FROM user_resources";
+      return jdbcTemplate.query(sql, mapUser());
+    }
+
+    private RowMapper<User> mapUser() {
+        return (resultSet, i) -> {
+            return new User(
+                    resultSet.getString("username"),
+                    resultSet.getString("password"),
+                    resultSet.getString("email")
+            );
+        };
+    }
+
+    public User returnUser(String username) {
         String sql = "" +
                 "SELECT * from user_resources where username = '?'";
         User oldUser;
         try {
-            oldUser = jdbcTemplate.queryForObject(sql, new Object[]{user}, (resultSet, i) ->
+            oldUser = jdbcTemplate.queryForObject(sql, new Object[]{username}, (resultSet, i) ->
                     new User(
                             resultSet.getString("username"),
                             resultSet.getString("password"),
@@ -83,5 +105,4 @@ public class JobDao {
         }
         return oldUser;
     }
-
 }

@@ -26,6 +26,11 @@ public class JobController {
         service.addNewUser(user);
     }
 
+    @GetMapping(path = "{username}/{password}")
+    public User checkPassword(@PathVariable("username") String username, @PathVariable("password") String password){
+        return service.checkPassword(username, password);
+    }
+
     @GetMapping("/getCompany")
     public List<Company> getAllCompanies() {
         return service.returnAllCompanies();
@@ -34,11 +39,6 @@ public class JobController {
     @PostMapping(path = "{company}/{type}")
     public void updateCompany(@PathVariable("company") String company, @PathVariable("type") int which){
         service.updateCompanyCount(company, which);
-    }
-
-    @PostMapping(path = "/login")
-    public String checkPassword(@RequestBody String username){
-        return service.checkPassword(username);
     }
 
 }

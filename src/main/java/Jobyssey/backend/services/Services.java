@@ -30,10 +30,17 @@ public class Services {
         jobDao.updateCompanyCount(company, which);
     }
 
-    public String checkPassword(String user) {
-        if(jobDao.checkPassword(user) == null){
-            return "wrong";
+    public User checkPassword(String user, String password) {
+        List<User> users = jobDao.checkPassword();
+        for(User u : users){
+            if(u.getUsername().equals(user) && u.getPassword().equals(password)){
+                return u;
+            }
         }
-        return "success";
+        return null;
+    }
+
+    public User returnUser(String username) {
+        return jobDao.returnUser(username);
     }
 }
