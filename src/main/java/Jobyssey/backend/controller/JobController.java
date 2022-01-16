@@ -32,4 +32,9 @@ public class JobController {
         return service.returnAllCompanies();
     }
 
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "trial";
+    }
+
 }
