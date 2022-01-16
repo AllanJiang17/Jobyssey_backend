@@ -41,6 +41,11 @@ public class JobController {
         service.addNewApplications(user);
     }
 
+    @GetMapping(path = "/getCompanyByName")
+    public Company getCompanyApplication(@RequestBody String companyName){
+        return service.getCompanyApplication(companyName);
+    }
+
     @PostMapping(path = "{company}/{type}")
     public void updateCompany(@PathVariable("company") String company, @PathVariable("type") int which){
         service.updateCompanyCount(company, which);

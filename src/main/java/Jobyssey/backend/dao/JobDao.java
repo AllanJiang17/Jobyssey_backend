@@ -3,6 +3,7 @@ package Jobyssey.backend.dao;
 import Jobyssey.backend.model.Company;
 import Jobyssey.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -116,5 +117,19 @@ public class JobDao {
 
     public int addNewApplications(User s) {
         return  jdbcTemplate.update(String.format(ADD_APPLICATIONS, s.getInterviews(), s.getApplications(), s.getUsername()));
+    }
+
+    private static final String GET_COMPANY_APPLICATION = new StringBuilder("")
+            .append("SELECT * from company WHERE company_name = '%1$s'")
+            .toString();
+
+    public Company getCompanyApplication(String companyName) {
+        return jdbcTemplate.queryForObject(String.format(GET_COMPANY_APPLICATION, companyName),
+                new Object[]{companyName}, (rs, i)->
+                new Company(
+                        rs.getString("company_name"),
+                        rs.getInt("applications"),
+                        rs.getInt("interviews")
+                ));
     }
 }

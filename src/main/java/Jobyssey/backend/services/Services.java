@@ -43,4 +43,8 @@ public class Services {
     public void addNewApplications(User s) {
         jobDao.addNewApplications(s);
     }
+
+    public Company getCompanyApplication(String companyName) {
+        return jobDao.getCompanyApplication(companyName);
+    }
 }
