@@ -27,7 +27,7 @@ public class JobController {
         service.addNewUser(user);
     }
 
-    @GetMapping
+    @GetMapping("/getCompany")
     public List<Company> getAllCompanies() {
         return service.returnAllCompanies();
     }
