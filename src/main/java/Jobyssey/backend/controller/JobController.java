@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RequestMapping("api/v1/company")
 @RestController
 public class JobController {
@@ -30,9 +31,14 @@ public class JobController {
         return service.returnAllCompanies();
     }
 
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "trial";
+    @PostMapping(path = "{company}/{type}")
+    public void updateCompany(@PathVariable("company") String company, @PathVariable("type") int which){
+        service.updateCompanyCount(company, which);
+    }
+
+    @PostMapping(path = "/login")
+    public String checkPassword(@RequestBody String username){
+        return service.checkPassword(username);
     }
 
 }

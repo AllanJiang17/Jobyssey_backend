@@ -16,19 +16,15 @@ public class JobDao {
     private JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     private static final String UPDATE_COMPANY = new StringBuilder("")
-            .append("UPDATE company set %1$s = %1$s + 1")
+            .append("UPDATE company set %1$s = %1$s + 1 WHERE company_name = '%2$s'")
             .toString();
 
     public void updateCompanyCount(String company, int where){
         if(where == 0){
-            jdbcTemplate.update(String.format(UPDATE_COMPANY, "application"));
+            jdbcTemplate.update(String.format(UPDATE_COMPANY, "applications", company));
         } else {
-            jdbcTemplate.update(String.format(UPDATE_COMPANY, "interview"));
+            jdbcTemplate.update(String.format(UPDATE_COMPANY, "interviews", company));
         }
-    }
-
-    public void createCompany(String company){
-
     }
 
     public List<Company> returnAllCompany(){
@@ -69,6 +65,23 @@ public class JobDao {
                 "email) " +
                 "VALUES (?,?,?)";
         return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+    }
+
+    public User checkPassword(String user) {
+        String sql = "" +
+                "SELECT * from user_resources where username = '?'";
+        User oldUser;
+        try {
+            oldUser = jdbcTemplate.queryForObject(sql, new Object[]{user}, (resultSet, i) ->
+                    new User(
+                            resultSet.getString("username"),
+                            resultSet.getString("password"),
+                            resultSet.getString("email")
+                    ));
+        } catch (Exception e){
+            return null;
+        }
+        return oldUser;
     }
 
 }

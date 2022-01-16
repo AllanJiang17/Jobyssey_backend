@@ -26,4 +26,14 @@ public class Services {
         jobDao.addUser(user);
     }
 
+    public void updateCompanyCount(String company, int which){
+        jobDao.updateCompanyCount(company, which);
+    }
+
+    public String checkPassword(String user) {
+        if(jobDao.checkPassword(user) == null){
+            return "wrong";
+        }
+        return "success";
+    }
 }
